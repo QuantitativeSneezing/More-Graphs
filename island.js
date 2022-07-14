@@ -11,6 +11,43 @@ function getNeighbors(row, col, graph) {
   // Return neighbors
 
   // Your code here
+
+  // Up
+  let node = [row,col]
+  let matrix = graph
+  const neighbors = [];
+  if (node[0] !== 0) {
+    const up = node.slice();
+    up[0]--;
+    if(matrix[up[0]][up[1]] === 1)
+    neighbors.push(up);
+  }
+  // Down
+  if (node[0] !== matrix.length - 1) {
+    const down = node.slice();
+    down[0]++;
+    if (matrix[down[0]][down[1]] === 1)
+    neighbors.push(down);
+  }
+  // Left
+  if (node[1] !== 0) {
+    const left = node.slice();
+    left[1]--;
+    if (matrix[left[0]][left[1]] === 1)
+    neighbors.push(left)
+  }
+  // Right
+  if (node[1] !== matrix.length - 1) {
+    const right = node.slice();
+    right[1]++;
+    if (matrix[right[0]][right[1]] === 1)
+    neighbors.push(right)
+  }
+  // Your code here
+  // for (item of neighbors){
+  //     console.log (matrix[item[0]][item[1]])
+  // }
+  return neighbors;
 }
 
 
@@ -38,6 +75,40 @@ function islandSize(row, col, graph) {
   // return size
 
   // Your code here
+  
+ let matrix = graph
+ let startNode = [row, col]
+  const queue = [startNode]
+  const visited = new Set();
+  visited.add(startNode.toString());
+  
+  while (queue.length > 0) {
+    let node = queue.shift();
+    
+    // console.log (currentPath);
+    // console.log (node)
+
+    const neighbors = getNeighbors(node[0], node[1], matrix);
+    for (location of neighbors) {
+      
+      let item = location.toString()
+      if (!visited.has(item)) {
+        
+        
+        queue.push(location)
+        visited.add(item);
+      }
+    }
+  }
+  return visited.size;
 }
+
+matrix = [
+  [1, 1, 1, 0, 0],
+  [0, 1, 1, 0, 1],
+  [0, 1, 1, 0, 1],
+]
+
+console.log(getNeighbors(1, 1, matrix))
 
 module.exports = [getNeighbors, islandSize];
